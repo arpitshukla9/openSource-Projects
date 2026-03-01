@@ -2,7 +2,7 @@
   "name": "codekasamay",
   "displayName": "CodeKaSamay",
   "description": "Track your real coding time with streaks, goals, and personal bests. 100% local, zero telemetry.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "CodePulse Team",
   "license": "MIT",
   "publisher": "ArpitTheme",
@@ -45,24 +45,24 @@
     "commands": [
       {
         "command": "codepulse.openDashboard",
-        "title": "CodePulse: Open Dashboard"
+        "title": "CodeKaSamay: Open Dashboard"
       },
       {
         "command": "codepulse.resetToday",
-        "title": "CodePulse: Reset Today's Stats"
+        "title": "CodeKaSamay: Reset Today's Stats"
       },
       {
         "command": "codepulse.toggleTracking",
-        "title": "CodePulse: Pause/Resume Tracking"
+        "title": "CodeKaSamay: Pause/Resume Tracking"
       },
       {
         "command": "codepulse.exportStats",
-        "title": "CodePulse: Export Stats as JSON"
+        "title": "CodeKaSamay: Export Stats as JSON"
       }
     ],
     "configuration": [
       {
-        "title": "CodePulse",
+        "title": "CodeKaSamay",
         "properties": {
           "codepulse.dailyGoalMinutes": {
             "type": "number",

@@ -13,7 +13,10 @@ export class StatusBarItemManager {
   private updateInterval: NodeJS.Timeout | null = null;
   private showWordsInStatusBar: boolean = true;
 
-  constructor(private readonly statsAggregator: StatsAggregator) {
+  constructor(
+    private readonly statsAggregator: StatsAggregator,
+    private readonly getCurrentStreak: () => number
+  ) {
     this.statusBar = vscode.window.createStatusBarItem(
       vscode.StatusBarAlignment.Right,
       100
@@ -47,8 +50,7 @@ export class StatusBarItemManager {
 
     const isActive = current.totalActiveSeconds > 0; // Simplified check
     const icon = goal.percentage >= 100 ? '✅' : isActive ? '⚡' : '💤';
-    const streak = today.sessionCount > 0 ? ' •' : '';
-    const streakNum = today.sessionCount > 0 ? ` 🔥 ${today.sessionCount}` : '';
+    const streakValue = this.getCurrentStreak();
 
     let text = `${icon} ${formatDuration(today.totalActiveSeconds)}`;
 
@@ -56,7 +58,7 @@ export class StatusBarItemManager {
       text += ` • ${formatNumber(today.totalWords)} words`;
     }
 
-    text += streak + streakNum;
+    text += ` • 🔥 ${streakValue}`;
 
     this.statusBar.text = text;
     this.statusBar.tooltip = this.getTooltip(today, goal);
@@ -71,14 +73,17 @@ export class StatusBarItemManager {
 
   const goalStatusEmoji = goal.percentage >= 100 ? '✅' : '⏳';
 
-    md.appendMarkdown(`**CodePulse — Today's Stats**\n\n`);
+    const streakValue = this.getCurrentStreak();
+
+    md.appendMarkdown(`**CodeKaSamay — Today's Stats**\n\n`);
     md.appendMarkdown(`⏱ **Active Time:** ${formatDuration(today.totalActiveSeconds)}\n`);
     md.appendMarkdown(
       `${goalStatusEmoji} **Goal:** ${goal.goal / 60} minutes\n`
     );
     md.appendMarkdown(`📝 **Words:** ${formatNumber(today.totalWords)}\n`);
     md.appendMarkdown(`🔤 **Characters:** ${formatNumber(today.totalCharacters)}\n`);
-    md.appendMarkdown(`📄 **Lines:** ${formatNumber(today.totalLines)}\n\n`);
+    md.appendMarkdown(`📄 **Lines:** ${formatNumber(today.totalLines)}\n`);
+    md.appendMarkdown(`🔥 **Streak:** ${streakValue} day(s)\n\n`);
     md.appendMarkdown(`*Click to open dashboard*`);
 
     return md;

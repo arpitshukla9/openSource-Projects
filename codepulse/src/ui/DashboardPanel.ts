@@ -35,7 +35,7 @@ export class DashboardPanel {
     // Create new panel
     this.panel = vscode.window.createWebviewPanel(
       'codepulse-dashboard',
-      'CodePulse Dashboard',
+      'CodeKaSamay Dashboard',
       vscode.ViewColumn.One,
       {
         enableScripts: true,
@@ -108,7 +108,7 @@ export class DashboardPanel {
    * Check if panel is open
    */
   isOpen(): boolean {
-    return this.panel !== null && !this.panel.visible;
+    return this.panel !== null && this.panel.visible;
   }
 
   /**
@@ -169,7 +169,7 @@ export class DashboardPanel {
     const goals: UserGoals = {
       dailyActiveMinutes:
         Math.max(5, Math.min(480, Number(goalData.dailyActiveMinutes) || 60)),
-      dailyWords: Number(goalData.dailyWords) || 0,
+      dailyWords: Number(goalData.dailyWords) || 1000,
       reminderEnabled: goalData.reminderEnabled !== false,
       pauseThresholdSeconds:
         Math.max(5, Math.min(30, Number(goalData.pauseThresholdSeconds) || 10)),
@@ -209,7 +209,7 @@ export class DashboardPanel {
       const json = this.storageManager.exportAsJSON();
 
       const timestamp = new Date().toISOString().split('T')[0];
-      const fileName = `codepulse-export-${timestamp}.json`;
+      const fileName = `codekasamay-export-${timestamp}.json`;
 
       const uri = await vscode.window.showSaveDialog({
         defaultUri: vscode.Uri.file(path.join(process.env.HOME ? process.env.HOME : '', fileName)),
@@ -233,12 +233,13 @@ export class DashboardPanel {
    */
   private getWebviewContent(): string {
     const resourcesPath = vscode.Uri.joinPath(this.extensionUri, 'src', 'ui', 'webview');
-    const cssPath = this.panel!.webview.asWebviewUri(
-      vscode.Uri.joinPath(resourcesPath, 'dashboard.css')
-    );
-    const jsPath = this.panel!.webview.asWebviewUri(
-      vscode.Uri.joinPath(resourcesPath, 'dashboard.js')
-    );
+    const cacheBust = Date.now().toString();
+    const cssPath = this.panel!.webview
+      .asWebviewUri(vscode.Uri.joinPath(resourcesPath, 'dashboard.css'))
+      .with({ query: `v=${cacheBust}` });
+    const jsPath = this.panel!.webview
+      .asWebviewUri(vscode.Uri.joinPath(resourcesPath, 'dashboard.js'))
+      .with({ query: `v=${cacheBust}` });
 
     // Generate nonce for CSP
     const nonce = this.getNonce();
@@ -249,13 +250,13 @@ export class DashboardPanel {
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline' ${cssPath}; script-src 'nonce-${nonce}' https://cdn.jsdelivr.net; img-src data:;">
-      <title>CodePulse Dashboard</title>
+      <title>CodeKaSamay Dashboard</title>
       <link rel="stylesheet" href="${cssPath}" nonce="${nonce}" />
     </head>
     <body>
       <div class="header">
         <div class="header-left">
-          <h1 class="logo">🔥 CodePulse</h1>
+          <h1 class="logo">🔥 CodeKaSamay</h1>
         </div>
         <div class="header-right">
           <button id="settings-btn" class="icon-btn" title="Open Settings">
@@ -290,6 +291,15 @@ export class DashboardPanel {
             </div>
             <div class="progress-bar-bg">
               <div class="progress-bar" id="goal-progress-bar"></div>
+            </div>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-label">
+              📝 <span id="word-goal-current">0</span> / <span id="word-goal-target">1000</span> words today
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar" id="word-progress-bar" style="width: 0%"></div>
             </div>
           </div>
 
@@ -373,6 +383,7 @@ export class DashboardPanel {
             <h3>💻 Language Breakdown (This Week)</h3>
           </div>
           <div class="chart-container-small">
+            <canvas id="languageChart"></canvas>
             <div id="language-list" class="language-list"></div>
           </div>
         </div>
@@ -385,6 +396,11 @@ export class DashboardPanel {
           <div class="setting-group">
             <label for="daily-goal">Daily Goal (minutes)</label>
             <input type="number" id="daily-goal" min="5" max="480" value="60" />
+          </div>
+
+          <div class="setting-group">
+            <label for="daily-word-goal">Daily Word Goal</label>
+            <input type="number" id="daily-word-goal" min="0" max="10000" step="100" value="1000" />
           </div>
 
           <div class="setting-group">
@@ -405,7 +421,7 @@ export class DashboardPanel {
       </main>
 
       <div class="footer">
-        <p>CodePulse • 100% Local • Zero Telemetry</p>
+        <p>CodeKaSamay • 100% Local • Zero Telemetry</p>
       </div>
 
       <link rel="stylesheet" href="${cssPath}" nonce="${nonce}" />

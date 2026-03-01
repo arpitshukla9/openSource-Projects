@@ -137,13 +137,16 @@ body {
 /* Content Area */
 main {
   flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
   padding-bottom: 40px;
 }
 
 /* Cards - Glassmorphism */
 .card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 100%);
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   padding: 20px;

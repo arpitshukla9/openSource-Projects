@@ -41,7 +41,8 @@ class CodePulseExtension {
     this.streakManager = new StreakManager(this.storageManager, this.statsAggregator);
     this.recordKeeper = new RecordKeeper(this.storageManager, this.statsAggregator);
     this.statusBarManager = new StatusBarItemManager(
-      this.statsAggregator
+      this.statsAggregator,
+      () => this.streakManager.getCurrentStreak()
     );
     this.dashboardPanel = new DashboardPanel(
       this._context.extensionUri,
@@ -239,7 +240,7 @@ class CodePulseExtension {
 
     this.sessionEngine.setTrackingEnabled(!isEnabled);
     vscode.window.showInformationMessage(
-      `CodePulse tracking is now ${!isEnabled ? '✅ enabled' : '⏸️ paused'}`
+      `CodeKaSamay tracking is now ${!isEnabled ? '✅ enabled' : '⏸️ paused'}`
     );
 
     outputChannel.appendLine(
