@@ -1,0 +1,21 @@
+# Development and workspace files
+.vscode/**
+node_modules/**
+tests/**
+**/*.test.ts
+
+# Source TypeScript (runtime uses dist bundle)
+src/**/*.ts
+!src/ui/webview/**
+
+# Build/dev configs not needed at runtime
+.eslintrc.json
+.prettierrc
+tsconfig.json
+vitest.config.ts
+esbuild.config.js
+package-lock.json
+
+# Local artifacts
+*.vsix
+DEVELOPMENT.md

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodePulse Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1 class="logo">🔥 CodePulse</h1>
+    </div>
+    <div class="header-right">
+      <button id="settings-btn" class="icon-btn" title="Open Settings">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            d="M10.5 1.5H9.5V4C9.5 4.27614 9.27614 4.5 9 4.5C8.72386 4.5 8.5 4.27614 8.5 4V1.5H7.5V4C7.5 4.82843 8.17157 5.5 9 5.5H11C11.8284 5.5 12.5 4.82843 12.5 4V1.5H11.5V4C11.5 4.27614 11.2761 4.5 11 4.5C10.7239 4.5 10.5 4.27614 10.5 4V1.5ZM10 9C10.2761 9 10.5 9.22386 10.5 9.5V14C10.5 14.2761 10.2761 14.5 10 14.5C9.72386 14.5 9.5 14.2761 9.5 14V9.5C9.5 9.22386 9.72386 9 10 9ZM13.5 9.5C13.5 9.22386 13.7239 9 14 9C14.2761 9 14.5 9.22386 14.5 9.5V14C14.5 14.2761 14.2761 14.5 14 14.5C13.7239 14.5 13.5 14.2761 13.5 14V9.5ZM5.5 9.5C5.5 9.22386 5.72386 9 6 9C6.27614 9 6.5 9.22386 6.5 9.5V14C6.5 14.2761 6.27614 14.5 6 14.5C5.72386 14.5 5.5 14.2761 5.5 14V9.5Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Today Card -->
+  <div class="card today-card">
+    <div class="card-header">
+      <h2>TODAY</h2>
+      <p class="date-friendly" id="today-date">Monday, March 1</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <label>⏱ Active Time</label>
+        <span class="stat-value" id="today-active-time">0m</span>
+      </div>
+      <div class="stat-item">
+        <label>📝 Words</label>
+        <span class="stat-value" id="today-words">0</span>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-label">
+        <span id="goal-percentage">0%</span> of <span id="goal-minutes">60</span>min goal
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar" id="goal-progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <label>🔤 Characters</label>
+        <span class="stat-value" id="today-characters">0</span>
+      </div>
+      <div class="stat-item">
+        <label>📄 Lines</label>
+        <span class="stat-value" id="today-lines">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Streak Row (3 cards) -->
+  <div class="streak-row">
+    <div class="card streak-card">
+      <div class="card-header">
+        <h3>🔥 Streak</h3>
+      </div>
+      <div class="big-stat" id="streak-current">7</div>
+      <p class="stat-label">days</p>
+    </div>
+
+    <div class="card streak-card">
+      <div class="card-header">
+        <h3>🧊 Freezes</h3>
+      </div>
+      <div class="big-stat" id="freezes-available">2</div>
+      <p class="stat-label">remaining</p>
+    </div>
+
+    <div class="card streak-card">
+      <div class="card-header">
+        <h3>📅 Total Days</h3>
+      </div>
+      <div class="big-stat" id="total-days">43</div>
+      <p class="stat-label">active</p>
+    </div>
+  </div>
+
+  <!-- Weekly Chart -->
+  <div class="card">
+    <div class="card-header">
+      <h3>📊 Weekly Activity</h3>
+    </div>
+    <div class="chart-container">
+      <canvas id="weeklyChart"></canvas>
+      <div id="chart-fallback" style="display: none">
+        <p>Chart data unavailable. Refresh the dashboard.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal Bests -->
+  <div class="card">
+    <div class="card-header">
+      <h3>🏆 Personal Bests</h3>
+    </div>
+    <div class="records-list">
+      <div class="record-item">
+        <span class="record-label">Best Day (words)</span>
+        <span class="record-value" id="best-words">4,201</span>
+        <span class="record-date" id="best-words-date">Mar 15</span>
+      </div>
+      <div class="record-item">
+        <span class="record-label">Best Day (hours)</span>
+        <span class="record-value" id="best-hours">3h 12m</span>
+        <span class="record-date" id="best-hours-date">Feb 28</span>
+      </div>
+      <div class="record-item">
+        <span class="record-label">Best Streak</span>
+        <span class="record-value" id="best-streak">14</span>
+        <span class="record-date">days</span>
+      </div>
+      <div class="record-item">
+        <span class="record-label">Longest Session</span>
+        <span class="record-value" id="longest-session">1h 47m</span>
+        <span class="record-date"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Language Breakdown -->
+  <div class="card">
+    <div class="card-header">
+      <h3>💻 Language Breakdown (This Week)</h3>
+    </div>
+    <div class="chart-container-small">
+      <canvas id="languageChart"></canvas>
+      <div id="language-list" class="language-list"></div>
+    </div>
+  </div>
+
+  <!-- Settings Section -->
+  <div class="card settings-card" id="settings-panel" style="display: none">
+    <div class="card-header">
+      <h3>⚙️ Settings</h3>
+    </div>
+
+    <div class="setting-group">
+      <label for="daily-goal">Daily Goal (minutes)</label>
+      <input type="number" id="daily-goal" min="5" max="480" value="60" />
+    </div>
+
+    <div class="setting-group">
+      <label for="pause-threshold">Pause Threshold (seconds)</label>
+      <input type="range" id="pause-threshold" min="5" max="30" value="10" />
+      <span class="slider-value" id="pause-threshold-value">10s</span>
+    </div>
+
+    <div class="setting-group">
+      <label for="enable-freeze-reminder">
+        <input type="checkbox" id="enable-freeze-reminder" checked />
+        Enable Streak Freeze Reminder
+      </label>
+    </div>
+
+    <button id="save-goals-btn" class="btn btn-primary">Save Settings</button>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>CodePulse • 100% Local • Zero Telemetry</p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

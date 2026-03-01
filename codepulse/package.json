@@ -1,0 +1,121 @@
+{
+  "name": "codepulse",
+  "displayName": "CodePulse",
+  "description": "Track your real coding time with streaks, goals, and personal bests. 100% local, zero telemetry.",
+  "version": "1.0.1",
+  "author": "CodePulse Team",
+  "license": "MIT",
+  "publisher": "codepulse",
+  "keywords": [
+    "productivity",
+    "time-tracking",
+    "coding-time",
+    "focus",
+    "streak",
+    "developer-tools",
+    "analytics"
+  ],
+  "homepage": "https://github.com/arpitshukla9/openSource-Projects#readme",
+  "bugs": {
+    "url": "https://github.com/arpitshukla9/openSource-Projects/issues"
+  },
+  "qna": "marketplace",
+  "markdown": "github",
+  "galleryBanner": {
+    "color": "#1E1E1E",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arpitshukla9/openSource-Projects"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Productivity"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codepulse.openDashboard",
+        "title": "CodePulse: Open Dashboard"
+      },
+      {
+        "command": "codepulse.resetToday",
+        "title": "CodePulse: Reset Today's Stats"
+      },
+      {
+        "command": "codepulse.toggleTracking",
+        "title": "CodePulse: Pause/Resume Tracking"
+      },
+      {
+        "command": "codepulse.exportStats",
+        "title": "CodePulse: Export Stats as JSON"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "CodePulse",
+        "properties": {
+          "codepulse.dailyGoalMinutes": {
+            "type": "number",
+            "default": 60,
+            "description": "Daily active coding time goal in minutes",
+            "minimum": 5,
+            "maximum": 480
+          },
+          "codepulse.pauseThresholdSeconds": {
+            "type": "number",
+            "default": 10,
+            "description": "Seconds of inactivity before ending a session",
+            "minimum": 5,
+            "maximum": 30
+          },
+          "codepulse.enableStreakFreeze": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable streak freeze when you miss a day"
+          },
+          "codepulse.showWordsInStatusBar": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show word count in status bar"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "compile": "npm run typecheck && npm run esbuild",
+    "watch": "npm run esbuild-watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vitest/ui": "^1.0.4",
+    "esbuild": "^0.19.11",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vsce": "^2.15.0",
+    "vitest": "^1.0.4"
+  }
+}
