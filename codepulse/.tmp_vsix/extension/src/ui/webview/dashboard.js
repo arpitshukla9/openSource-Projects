@@ -42,9 +42,6 @@ window.addEventListener('message', (event) => {
     case 'goalsUpdated':
       loadSettings();
       break;
-    case 'settingsUpdate':
-      populateSettings(message.payload);
-      break;
   }
 });
 
@@ -89,19 +86,12 @@ function updateDashboard(data) {
     document.getElementById('today-characters').textContent = formatNumber(today.totalCharacters);
     document.getElementById('today-lines').textContent = formatNumber(today.totalLines);
 
-    // Goal progress (time)
+    // Goal progress
     const goalSeconds = (goals?.dailyActiveMinutes || 60) * 60;
     const percentage = Math.min(100, Math.round((today.totalActiveSeconds / goalSeconds) * 100));
     document.getElementById('goal-percentage').textContent = percentage;
     document.getElementById('goal-minutes').textContent = goals?.dailyActiveMinutes || 60;
     document.getElementById('goal-progress-bar').style.width = percentage + '%';
-
-    // Word goal progress
-    const wordGoal = goals?.dailyWords || 1000;
-    const wordPercentage = Math.min(100, Math.round((today.totalWords / wordGoal) * 100));
-    document.getElementById('word-goal-current').textContent = formatNumber(today.totalWords);
-    document.getElementById('word-goal-target').textContent = formatNumber(wordGoal);
-    document.getElementById('word-progress-bar').style.width = wordPercentage + '%';
 
     // Date
     const dateObj = new Date(today.date);
@@ -277,25 +267,11 @@ function loadSettings() {
 }
 
 /**
- * Populate settings form with values
- */
-function populateSettings(goals) {
-  if (!goals) return;
-  
-  document.getElementById('daily-goal').value = goals.dailyActiveMinutes || 60;
-  document.getElementById('daily-word-goal').value = goals.dailyWords || 1000;
-  document.getElementById('pause-threshold').value = goals.pauseThresholdSeconds || 10;
-  document.getElementById('pause-threshold-value').textContent = (goals.pauseThresholdSeconds || 10) + 's';
-  document.getElementById('enable-freeze-reminder').checked = goals.reminderEnabled !== false;
-}
-
-/**
  * Save settings
  */
 function saveSettings() {
   const goals = {
     dailyActiveMinutes: parseInt(document.getElementById('daily-goal').value, 10) || 60,
-    dailyWords: parseInt(document.getElementById('daily-word-goal').value, 10) || 1000,
     pauseThresholdSeconds: parseInt(document.getElementById('pause-threshold').value, 10) || 10,
     reminderEnabled: document.getElementById('enable-freeze-reminder').checked,
   };

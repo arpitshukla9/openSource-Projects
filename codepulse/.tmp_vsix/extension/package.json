@@ -1,12 +1,11 @@
 {
-  "name": "codekasamay",
-  "displayName": "CodeKaSamay",
+  "name": "codepulse",
+  "displayName": "CodePulse",
   "description": "Track your real coding time with streaks, goals, and personal bests. 100% local, zero telemetry.",
   "version": "1.0.2",
   "author": "CodePulse Team",
   "license": "MIT",
-  "publisher": "ArpitTheme",
-  "icon": "assets/logo.png",
+  "publisher": "arpitshukla9",
   "keywords": [
     "productivity",
     "time-tracking",
@@ -35,7 +34,8 @@
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Productivity"
   ],
   "activationEvents": [
     "onStartupFinished"

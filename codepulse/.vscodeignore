@@ -18,4 +18,6 @@ package-lock.json
 
 # Local artifacts
 *.vsix
+*.zip
+.tmp_vsix/**
 DEVELOPMENT.md

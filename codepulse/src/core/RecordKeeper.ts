@@ -136,12 +136,30 @@ export class RecordKeeper {
   // ─── Private Helpers ────────────────────────────────
 
   /**
+   * Check if current time is near end of day (11:45 PM)
+   */
+  private isEndOfDay(): boolean {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    // Show notifications between 11:45 PM (23:45) and midnight
+    return hours === 23 && minutes >= 45;
+  }
+
+  /**
    * Show a trophy notification for new personal best
+   * Only displays popup at 11:45 PM, but always logs to output channel
    */
   private showRecordNotification(metric: string, current: string, _previous: string): void {
     const message = `🏆 New Personal Best! ${metric}: ${current}`;
-    vscode.window.showInformationMessage(message);
+    
+    // Only show popup notification near end of day
+    if (this.isEndOfDay()) {
+      vscode.window.showInformationMessage(message);
+    }
 
+    // Always log to output channel for reference
     this.outputChannel.appendLine(
       `[${new Date().toISOString()}] 🏆 Record: ${metric} = ${current}`
     );

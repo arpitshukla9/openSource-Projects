@@ -277,7 +277,7 @@ const icon = goal.goalHit ? '✅' : isActive ? '⚡' : '💤';
 
 MIT © 2026 CodePulse Contributors
 
-See [LICENSE](LICENSE) for details.
+See [LICENSE](https://github.com/arpitshukla9/openSource-Projects/blob/HEAD/LICENSE) for details.
 
 ## 🐞 Troubleshooting
 

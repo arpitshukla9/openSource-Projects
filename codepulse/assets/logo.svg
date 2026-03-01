@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#007acc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00ff41;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="fireGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b00;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff9500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffff00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Main circle background -->
+  <circle cx="64" cy="64" r="64" fill="url(#bgGradient)"/>
+  
+  <!-- Fire flame shape (stylized) -->
+  <path d="M 64 25 C 75 35 82 48 82 62 C 82 80 74 85 64 85 C 54 85 46 80 46 62 C 46 48 53 35 64 25 Z" 
+        fill="url(#fireGradient)" filter="url(#glow)"/>
+  
+  <!-- Inner flame highlight -->
+  <path d="M 64 30 C 72 38 77 50 77 62 C 77 77 71 82 64 82 C 57 82 51 77 51 62 C 51 50 56 38 64 30 Z" 
+        fill="#ffff99" opacity="0.7"/>
+  
+  <!-- Code brackets - left -->
+  <g stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left bracket -->
+    <polyline points="30,52 38,64 30,76"/>
+    <!-- Right bracket -->
+    <polyline points="98,52 90,64 98,76"/>
+  </g>
+  
+  <!-- Center pulse dot -->
+  <circle cx="64" cy="64" r="3.5" fill="white" opacity="0.9"/>
+  
+  <!-- Pulse rings (animated effect - static representation) -->
+  <circle cx="64" cy="64" r="8" stroke="white" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <circle cx="64" cy="64" r="13" stroke="white" stroke-width="1" fill="none" opacity="0.3"/>
+</svg>

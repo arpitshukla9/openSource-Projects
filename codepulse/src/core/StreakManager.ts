@@ -66,9 +66,12 @@ export class StreakManager {
         streak.freezesAvailable -= 1;
         await this.storageManager.setStreak(streak);
 
-        vscode.window.showWarningMessage(
-          `❄️ Streak freeze used! You have ${streak.freezesAvailable} freeze(s) remaining.`
-        );
+        // Only show popup at end of day
+        if (this.isEndOfDay()) {
+          vscode.window.showWarningMessage(
+            `❄️ Streak freeze used! You have ${streak.freezesAvailable} freeze(s) remaining.`
+          );
+        }
         this.outputChannel.appendLine(
           `[${new Date().toISOString()}] Streak freeze consumed. Remaining: ${streak.freezesAvailable}`
         );
@@ -79,9 +82,12 @@ export class StreakManager {
         streak.current = 0;
         await this.storageManager.setStreak(streak);
 
-        vscode.window.showWarningMessage(
-          '🔥 Oops! Your streak has been reset. No freezes available.'
-        );
+        // Only show popup at end of day
+        if (this.isEndOfDay()) {
+          vscode.window.showWarningMessage(
+            '🔥 Oops! Your streak has been reset. No freezes available.'
+          );
+        }
         this.outputChannel.appendLine(
           `[${new Date().toISOString()}] Streak reset due to missed goal and no freezes.`
         );
@@ -168,6 +174,18 @@ export class StreakManager {
   }
 
   // ─── Private Helpers ────────────────────────────────
+
+  /**
+   * Check if current time is near end of day (11:45 PM)
+   */
+  private isEndOfDay(): boolean {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    // Show notifications between 11:45 PM (23:45) and midnight
+    return hours === 23 && minutes >= 45;
+  }
 
   /**
    * Replenish freezes if 7+ days since last replenishment

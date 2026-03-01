@@ -243,7 +243,7 @@ export class StorageManager {
       },
       goals: {
         dailyActiveMinutes: 60,
-        dailyWords: 0,
+        dailyWords: 1000,
         reminderEnabled: true,
         pauseThresholdSeconds: 10,
       },
